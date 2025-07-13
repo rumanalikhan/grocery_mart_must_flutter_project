@@ -12,7 +12,7 @@ class Product {
     required this.price,
     required this.image,
     required this.category,
-    this.quantity = 1, // default
+    this.quantity = 1,
   });
 
   Map<String, dynamic> toMap() {

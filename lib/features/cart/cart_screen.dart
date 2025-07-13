@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:grocery_mart/providers/cart_provider.dart';
-// import 'package:grocery_mart/models/product_model.dart';
 
 class CartScreen extends StatelessWidget {
+  const CartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
@@ -44,13 +45,14 @@ class CartScreen extends StatelessWidget {
                           ],
                         ),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.network(
                                 product.image,
                                 width: 60,
-                                height: 60,
+                                height: 80,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -59,47 +61,83 @@ class CartScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    product.name,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              product.name,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              product.category,
+                                              style: const TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.close,
+                                            color: Colors.grey),
+                                        onPressed: () =>
+                                            cart.removeFromCart(product),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    '${product.quantity} × Rs. ${product.price}',
-                                    style: const TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 14,
-                                    ),
+                                  // Text(
+                                  //   product.category,
+                                  //   style: const TextStyle(
+                                  //     fontSize: 10,
+                                  //     color: Colors.grey,
+                                  //   ),
+                                  // ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(Icons.remove),
+                                            onPressed: () {
+                                              cart.decreaseQuantity(product);
+                                            },
+                                          ),
+                                          Text('${product.quantity}'),
+                                          IconButton(
+                                            icon: const Icon(Icons.add),
+                                            onPressed: () {
+                                              cart.increaseQuantity(product);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        'Rs. ${(product.price * product.quantity).toStringAsFixed(0)}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
                             ),
-                            // IconButton(
-                            //   icon: const Icon(Icons.delete_outline,
-                            //       color: Colors.redAccent),
-                            //   onPressed: () => cart.removeFromCart(product),
-                            // ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.remove),
-                                  onPressed: () {
-                                    cart.decreaseQuantity(product);
-                                  },
-                                ),
-                                Text('${product.quantity}'),
-                                IconButton(
-                                  icon: Icon(Icons.add),
-                                  onPressed: () {
-                                    cart.increaseQuantity(product);
-                                  },
-                                ),
-                              ],
-                            )
                           ],
                         ),
                       );
@@ -109,173 +147,336 @@ class CartScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.green.shade50,
+                    color: Colors.white,
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(20)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Total",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500),
-                          ),
-                          Text(
-                            "Rs. ${cart.totalPrice.toStringAsFixed(2)}",
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(24)),
-                            ),
-                            backgroundColor: Colors.white,
-                            builder: (context) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  top: 20,
-                                  left: 20,
-                                  right: 20,
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom +
-                                          20,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 40,
-                                      height: 4,
-                                      margin: const EdgeInsets.only(bottom: 20),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.shade300,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Checkout Summary',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text('Items Total',
-                                            style: TextStyle(fontSize: 16)),
-                                        Text(
-                                            'Rs. ${cart.totalPrice.toStringAsFixed(2)}',
-                                            style:
-                                                const TextStyle(fontSize: 16)),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10),
-                                    const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Delivery Fee',
-                                            style: TextStyle(fontSize: 16)),
-                                        Text('Rs. 0',
-                                            style: TextStyle(fontSize: 16)),
-                                      ],
-                                    ),
-                                    const Divider(height: 30),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text('Total Amount',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold)),
-                                        Text(
-                                            'Rs. ${cart.totalPrice.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text(
-                                                  'Order placed successfully! 🎉')),
-                                        );
-                                        cart.clearCart();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.green,
-                                        minimumSize: const Size.fromHeight(50),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                      ),
-                                      child: const Text(
-                                        'Confirm Order',
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    const Text(
-                                      'Estimated delivery: 30-45 mins',
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                    const SizedBox(height: 10),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                        child: const Text(
-                          "Checkout",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextButton(
-                        onPressed: cart.clearCart,
-                        child: const Text(
-                          "Clear Cart",
-                          style: TextStyle(color: Colors.redAccent),
-                        ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 4,
+                        offset: const Offset(0, -2),
                       ),
                     ],
                   ),
-                )
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // showModalBottomSheet(
+                      //   context: context,
+                      //   isScrollControlled: true,
+                      //   shape: const RoundedRectangleBorder(
+                      //     borderRadius:
+                      //         BorderRadius.vertical(top: Radius.circular(24)),
+                      //   ),
+                      //   backgroundColor: Colors.white,
+                      //   builder: (context) {
+                      //     return Padding(
+                      //       padding: EdgeInsets.only(
+                      //         top: 20,
+                      //         left: 20,
+                      //         right: 20,
+                      //         bottom:
+                      //             MediaQuery.of(context).viewInsets.bottom + 20,
+                      //       ),
+                      //       child: Column(
+                      //         mainAxisSize: MainAxisSize.min,
+                      //         children: [
+                      //           Container(
+                      //             width: 40,
+                      //             height: 4,
+                      //             margin: const EdgeInsets.only(bottom: 20),
+                      //             decoration: BoxDecoration(
+                      //               color: Colors.grey.shade300,
+                      //               borderRadius: BorderRadius.circular(4),
+                      //             ),
+                      //           ),
+                      //           const Text(
+                      //             'Checkout Summary',
+                      //             style: TextStyle(
+                      //                 fontSize: 18,
+                      //                 fontWeight: FontWeight.w600),
+                      //           ),
+                      //           const SizedBox(height: 20),
+                      //           Row(
+                      //             mainAxisAlignment:
+                      //                 MainAxisAlignment.spaceBetween,
+                      //             children: [
+                      //               const Text('Items Total',
+                      //                   style: TextStyle(fontSize: 16)),
+                      //               Text(
+                      //                   'Rs. ${cart.totalPrice.toStringAsFixed(2)}',
+                      //                   style: const TextStyle(fontSize: 16)),
+                      //             ],
+                      //           ),
+                      //           const SizedBox(height: 10),
+                      //           const Row(
+                      //             mainAxisAlignment:
+                      //                 MainAxisAlignment.spaceBetween,
+                      //             children: [
+                      //               Text('Delivery Fee',
+                      //                   style: TextStyle(fontSize: 16)),
+                      //               Text('Rs. 0',
+                      //                   style: TextStyle(fontSize: 16)),
+                      //             ],
+                      //           ),
+                      //           const Divider(height: 30),
+                      //           Row(
+                      //             mainAxisAlignment:
+                      //                 MainAxisAlignment.spaceBetween,
+                      //             children: [
+                      //               const Text('Total Amount',
+                      //                   style: TextStyle(
+                      //                       fontSize: 18,
+                      //                       fontWeight: FontWeight.bold)),
+                      //               Text(
+                      //                   'Rs. ${cart.totalPrice.toStringAsFixed(2)}',
+                      //                   style: const TextStyle(
+                      //                       fontSize: 18,
+                      //                       fontWeight: FontWeight.bold)),
+                      //             ],
+                      //           ),
+                      //           const SizedBox(height: 20),
+                      //           ElevatedButton(
+                      //             onPressed: () {
+                      //               Navigator.pop(context);
+                      //               ScaffoldMessenger.of(context).showSnackBar(
+                      //                 const SnackBar(
+                      //                     content: Text(
+                      //                         'Order placed successfully! 🎉')),
+                      //               );
+                      //               cart.clearCart();
+                      //             },
+                      //             style: ElevatedButton.styleFrom(
+                      //               backgroundColor: Colors.green,
+                      //               minimumSize: const Size.fromHeight(50),
+                      //               shape: RoundedRectangleBorder(
+                      //                 borderRadius: BorderRadius.circular(12),
+                      //               ),
+                      //             ),
+                      //             child: const Text(
+                      //               'Confirm Order',
+                      //               style: TextStyle(fontSize: 16),
+                      //             ),
+                      //           ),
+                      //           const SizedBox(height: 10),
+                      //           const Text(
+                      //             'Estimated delivery: 30-45 mins',
+                      //             style: TextStyle(color: Colors.grey),
+                      //           ),
+                      //           const SizedBox(height: 10),
+                      //         ],
+                      //       ),
+                      //     );
+                      //   },
+                      // );
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(24)),
+                        ),
+                        backgroundColor: Colors.white,
+                        builder: (context) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              top: 20,
+                              left: 20,
+                              right: 20,
+                              bottom:
+                                  MediaQuery.of(context).viewInsets.bottom + 20,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // Drag bar + Close
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Checkout',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () => Navigator.pop(context),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+
+                                // Delivery Method Row
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Deliver",
+                                        style: TextStyle(fontSize: 16)),
+                                    Row(
+                                      children: [
+                                        Text("Select Method",
+                                            style:
+                                                TextStyle(color: Colors.black)),
+                                        Icon(Icons.chevron_right,
+                                            color: Colors.grey),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+
+                                // Payment Method Row
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Payment",
+                                        style: TextStyle(fontSize: 16)),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.credit_card,
+                                            size: 20, color: Colors.grey),
+                                        SizedBox(width: 6),
+                                        Icon(Icons.chevron_right,
+                                            color: Colors.grey),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+
+                                // Promo Code Row
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Promo Code",
+                                        style: TextStyle(fontSize: 16)),
+                                    Row(
+                                      children: [
+                                        Text("Pick Discount",
+                                            style:
+                                                TextStyle(color: Colors.black)),
+                                        Icon(Icons.chevron_right,
+                                            color: Colors.grey),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+
+                                // Total Cost Row
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text("Total Cost",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    Text(
+                                        'Rs. ${cart.totalPrice.toStringAsFixed(2)}',
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 20),
+
+                                // const Text(
+                                //   'By placing an order you agree to our Terms and Conditions',
+                                //   style: TextStyle(
+                                //       color: Colors.black, fontSize: 12),
+                                // ),
+                                // const SizedBox(height: 16),
+                                const Text.rich(
+                                  TextSpan(
+                                    text:
+                                        'By placing an order you agree to our ',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Terms',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: ' and ',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      TextSpan(
+                                        text: 'Conditions',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                const SizedBox(height: 20),
+                                // Place Order Button
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(
+                                        context, '/orderAccepted');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                    minimumSize: const Size.fromHeight(50),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Place Order',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 14, horizontal: 16),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Go to Checkout",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                        Text(
+                          "Rs. ${cart.totalPrice.toStringAsFixed(2)}",
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-      backgroundColor: const Color(0xFFF6F6F6),
+      //backgroundColor: const Color(0xFFF6F6F6),
     );
   }
 }
