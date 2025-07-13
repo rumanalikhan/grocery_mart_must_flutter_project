@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'features/home/screens/home_screen.dart';
+import 'features/home/home_screen.dart';
 import 'providers/cart_provider.dart';
 
 void main() {

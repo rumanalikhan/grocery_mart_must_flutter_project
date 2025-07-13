@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_mart/features/home/screens/cart_screen.dart';
+import 'package:grocery_mart/features/cart/cart_screen.dart';
 import 'package:grocery_mart/services/product_service.dart';
 import 'package:grocery_mart/models/product_model.dart';
 import 'package:grocery_mart/providers/cart_provider.dart';
@@ -132,7 +132,8 @@ class HomeScreen extends StatelessWidget {
                         ),
                         label: Text(isInCart ? 'Added' : 'Add'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isInCart ? Colors.grey : Colors.green,
+                          backgroundColor:
+                              isInCart ? Colors.grey : Colors.green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
