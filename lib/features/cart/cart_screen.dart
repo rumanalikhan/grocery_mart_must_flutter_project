@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_mart/features/order/order_accepted_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:grocery_mart/providers/cart_provider.dart';
 
@@ -9,7 +10,6 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
     final cartItems = cart.cartItems;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart'),
@@ -98,13 +98,6 @@ class CartScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  // Text(
-                                  //   product.category,
-                                  //   style: const TextStyle(
-                                  //     fontSize: 10,
-                                  //     color: Colors.grey,
-                                  //   ),
-                                  // ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -160,114 +153,6 @@ class CartScreen extends StatelessWidget {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      // showModalBottomSheet(
-                      //   context: context,
-                      //   isScrollControlled: true,
-                      //   shape: const RoundedRectangleBorder(
-                      //     borderRadius:
-                      //         BorderRadius.vertical(top: Radius.circular(24)),
-                      //   ),
-                      //   backgroundColor: Colors.white,
-                      //   builder: (context) {
-                      //     return Padding(
-                      //       padding: EdgeInsets.only(
-                      //         top: 20,
-                      //         left: 20,
-                      //         right: 20,
-                      //         bottom:
-                      //             MediaQuery.of(context).viewInsets.bottom + 20,
-                      //       ),
-                      //       child: Column(
-                      //         mainAxisSize: MainAxisSize.min,
-                      //         children: [
-                      //           Container(
-                      //             width: 40,
-                      //             height: 4,
-                      //             margin: const EdgeInsets.only(bottom: 20),
-                      //             decoration: BoxDecoration(
-                      //               color: Colors.grey.shade300,
-                      //               borderRadius: BorderRadius.circular(4),
-                      //             ),
-                      //           ),
-                      //           const Text(
-                      //             'Checkout Summary',
-                      //             style: TextStyle(
-                      //                 fontSize: 18,
-                      //                 fontWeight: FontWeight.w600),
-                      //           ),
-                      //           const SizedBox(height: 20),
-                      //           Row(
-                      //             mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //             children: [
-                      //               const Text('Items Total',
-                      //                   style: TextStyle(fontSize: 16)),
-                      //               Text(
-                      //                   'Rs. ${cart.totalPrice.toStringAsFixed(2)}',
-                      //                   style: const TextStyle(fontSize: 16)),
-                      //             ],
-                      //           ),
-                      //           const SizedBox(height: 10),
-                      //           const Row(
-                      //             mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //             children: [
-                      //               Text('Delivery Fee',
-                      //                   style: TextStyle(fontSize: 16)),
-                      //               Text('Rs. 0',
-                      //                   style: TextStyle(fontSize: 16)),
-                      //             ],
-                      //           ),
-                      //           const Divider(height: 30),
-                      //           Row(
-                      //             mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //             children: [
-                      //               const Text('Total Amount',
-                      //                   style: TextStyle(
-                      //                       fontSize: 18,
-                      //                       fontWeight: FontWeight.bold)),
-                      //               Text(
-                      //                   'Rs. ${cart.totalPrice.toStringAsFixed(2)}',
-                      //                   style: const TextStyle(
-                      //                       fontSize: 18,
-                      //                       fontWeight: FontWeight.bold)),
-                      //             ],
-                      //           ),
-                      //           const SizedBox(height: 20),
-                      //           ElevatedButton(
-                      //             onPressed: () {
-                      //               Navigator.pop(context);
-                      //               ScaffoldMessenger.of(context).showSnackBar(
-                      //                 const SnackBar(
-                      //                     content: Text(
-                      //                         'Order placed successfully! 🎉')),
-                      //               );
-                      //               cart.clearCart();
-                      //             },
-                      //             style: ElevatedButton.styleFrom(
-                      //               backgroundColor: Colors.green,
-                      //               minimumSize: const Size.fromHeight(50),
-                      //               shape: RoundedRectangleBorder(
-                      //                 borderRadius: BorderRadius.circular(12),
-                      //               ),
-                      //             ),
-                      //             child: const Text(
-                      //               'Confirm Order',
-                      //               style: TextStyle(fontSize: 16),
-                      //             ),
-                      //           ),
-                      //           const SizedBox(height: 10),
-                      //           const Text(
-                      //             'Estimated delivery: 30-45 mins',
-                      //             style: TextStyle(color: Colors.grey),
-                      //           ),
-                      //           const SizedBox(height: 10),
-                      //         ],
-                      //       ),
-                      //     );
-                      //   },
-                      // );
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
@@ -306,7 +191,6 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 10),
-
                                 // Delivery Method Row
                                 const Row(
                                   mainAxisAlignment:
@@ -326,7 +210,6 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 16),
-
                                 // Payment Method Row
                                 const Row(
                                   mainAxisAlignment:
@@ -346,7 +229,6 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 16),
-
                                 // Promo Code Row
                                 const Row(
                                   mainAxisAlignment:
@@ -366,7 +248,6 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 16),
-
                                 // Total Cost Row
                                 Row(
                                   mainAxisAlignment:
@@ -383,15 +264,7 @@ class CartScreen extends StatelessWidget {
                                             fontWeight: FontWeight.bold)),
                                   ],
                                 ),
-
                                 const SizedBox(height: 20),
-
-                                // const Text(
-                                //   'By placing an order you agree to our Terms and Conditions',
-                                //   style: TextStyle(
-                                //       color: Colors.black, fontSize: 12),
-                                // ),
-                                // const SizedBox(height: 16),
                                 const Text.rich(
                                   TextSpan(
                                     text:
@@ -420,14 +293,16 @@ class CartScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-
                                 const SizedBox(height: 20),
                                 // Place Order Button
                                 ElevatedButton(
                                   onPressed: () {
-                                    Navigator.pop(context);
-                                    Navigator.pushNamed(
-                                        context, '/orderAccepted');
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              const OrderAcceptedScreen()),
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
@@ -476,7 +351,6 @@ class CartScreen extends StatelessWidget {
                 ),
               ],
             ),
-      //backgroundColor: const Color(0xFFF6F6F6),
     );
   }
 }

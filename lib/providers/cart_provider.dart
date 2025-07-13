@@ -9,7 +9,6 @@ class CartProvider with ChangeNotifier {
   List<Product> get cartItems => _cartItems;
   int get cartCount => _cartItems.length;
 
-  // List<Product> get cartItems => _cartItems;
   double get totalPrice => _cartItems.fold(
         0,
         (sum, item) => sum + (item.price * item.quantity),
@@ -42,7 +41,7 @@ class CartProvider with ChangeNotifier {
 
   void increaseQuantity(Product product) {
     product.quantity++;
-    _saveCartToPrefs(); // ← correct method
+    _saveCartToPrefs(); 
     notifyListeners();
   }
 
@@ -51,13 +50,13 @@ class CartProvider with ChangeNotifier {
       product.quantity--;
     } else {
       removeFromCart(product);
-      return; // remove already calls _saveCartToPrefs + notify
+      return; 
     }
-    _saveCartToPrefs(); // ← correct method
+    _saveCartToPrefs();
     notifyListeners();
   }
 
-  // 🧠 Persist to SharedPreferences
+  // Persist to SharedPreferences
   void _saveCartToPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> cartJson =
@@ -65,7 +64,7 @@ class CartProvider with ChangeNotifier {
     prefs.setStringList('cart', cartJson);
   }
 
-  // 🧠 Load from SharedPreferences
+  // Load from SharedPreferences
   void _loadCartFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? cartJson = prefs.getStringList('cart');

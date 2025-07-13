@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => CartScreen()),
+                    MaterialPageRoute(builder: (_) => const CartScreen()),
                   );
                 },
               ),
@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // 🔍 Search bar
+          // Search bar
           Container(
             height: 48,
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -107,7 +107,6 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-
           const SizedBox(height: 24),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,8 +125,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-
-          // 🔥 Exclusive horizontal list
+          // Exclusive horizontal list
           SizedBox(
             height: 160,
             child: ListView.builder(
@@ -174,12 +172,11 @@ class HomeScreen extends StatelessWidget {
               },
             ),
           ),
-
           const SizedBox(height: 24),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 "Best Selling",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
@@ -194,10 +191,8 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-
           const SizedBox(height: 12),
-
-          // 🛒 Grid view
+          // Grid view
           GridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -207,7 +202,6 @@ class HomeScreen extends StatelessWidget {
             childAspectRatio: 0.7,
             children: products.map((p) {
               final isInCart = cart.isInCart(p);
-
               return Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
