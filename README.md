@@ -1,16 +1,82 @@
-# grocery_mart
+# GroceryMart – Flutter Grocery Shopping App
 
-A new Flutter project.
+A clean, simple grocery shopping  Flutter project. The project demonstrates good app structure, state management using Provider, and local cart persistence using SharedPreferences.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+###  Home Screen
+- Featured products and categories
+- Add products to cart
 
-A few resources to get you started if this is your first Flutter project:
+###  Cart Screen
+- View cart items
+- Quantity adjustment (+/-)
+- Remove items
+- Total price calculation
+- Checkout button (opens bottom sheet)
+- Persistent cart using SharedPreferences
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+###  Checkout Bottom Sheet
+- Delivery method, Payment, Promo Code
+- Total cost summary
+- “Place Order” button
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+###  Order Accepted Screen
+-  Success message
+- "Track Order" and "Back to Home" buttons
+
+##  Tech Stack
+
+- **Framework**: Flutter (Latest stable)
+- **State Management**: Provider
+- **Persistence**: SharedPreferences
+- **Architecture**: Feature-first with clean UI/business logic separation
+- **Navigation**: Flutter's Navigator
+
+##  Folder Structure
+
+```
+lib/
+├── features/
+│   ├── home/
+│   │   └── home_screen.dart
+│   ├── cart/
+│   │   ├── cart_screen.dart
+│   │   └── checkout_bottomsheet.dart
+│   ├── order/
+│   │   └── order_accepted_screen.dart
+├── models/
+│   └── product_model.dart
+├── providers/
+│   └── cart_provider.dart
+├── main.dart
+```
+
+##  State Management
+
+- Managed using `Provider`
+- `CartProvider` handles cart operations
+- Quantity updates and removal work seamlessly
+- Cart is restored on app restart using SharedPreferences
+
+##  Sample Product Data
+
+- 10 products across 3–4 categories
+- Each includes: `id`, `name`, `price`, `image`, `category`
+
+##  Getting Started
+
+```bash
+git clone https://github.com/rumanalikhan/grocery_mart_must_flutter_project.git
+cd grocery_mart_must_flutter_project
+flutter pub get
+flutter run
+```
+
+## Tested On
+
+- Android Emulator  
+- Android Physical Device
+
+## 🙋‍♀️  
+Made with Flutter by [Ruman Ali](https://github.com/rumanalikhan)
